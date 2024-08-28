@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
+const uuid = require('uuid');
+const RefreshToken = require('../models/authentication/refresh-token');
 
 const generateAccessToken = async (user) => {
     
@@ -11,4 +13,25 @@ const generateAccessToken = async (user) => {
     return jwt.sign(payload, JWT_SECRET_KEY, { algorithm: 'HS256' });
 }
 
-module.exports = { generateAccessToken }
+const generateRefreshToken = async (user) => {
+
+    const jti = uuid.v4();
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 2);
+
+    const payload = {
+        jti,
+        exp: Math.floor(expiryDate.getTime() / 1000),
+        iat: Math.floor(Date.now() / 1000),
+    };
+
+    await RefreshToken.create({
+        jti,
+        userId: user.id,
+        expiryDate
+    });
+
+    return jwt.sign(payload, JWT_SECRET_KEY, { algorithm: 'HS256' });
+};
+
+module.exports = { generateAccessToken, generateRefreshToken }
