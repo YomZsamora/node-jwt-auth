@@ -1,7 +1,7 @@
 const User = require('../../models/authentication/user');
 const { ValidationError } = require('../../utils/exceptions/custom-exceptions');
 const { ApiResponse } = require('../../utils/responses');
-const { generateAccessToken } = require('../../utils/tokens');
+const { generateAccessToken, generateRefreshToken } = require('../../utils/tokens');
 
 const basicLoginController = async (req, res, next) => {
 
@@ -18,6 +18,7 @@ const basicLoginController = async (req, res, next) => {
         user.save()
 
         const accessToken = await generateAccessToken(user);
+        const refreshToken = await generateRefreshToken(user);
 
         const apiResponse = new ApiResponse();
         apiResponse.message = "Logged in successfully.";
@@ -26,7 +27,8 @@ const basicLoginController = async (req, res, next) => {
             firstName: user.firstName,
             lastName: user.lastName,
             lastLogin: user.lastLogin,
-            accessToken
+            accessToken,
+            refreshToken
         }
         return res.status(apiResponse.code).json(apiResponse);
     } catch(error) {
