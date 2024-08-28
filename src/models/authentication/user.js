@@ -1,5 +1,3 @@
-// src/models/authentication/user.js
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/sequelize');
 const bcrypt = require('bcryptjs');
