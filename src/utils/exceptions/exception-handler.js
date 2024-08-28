@@ -1,7 +1,7 @@
 const { ApiResponse, ERROR_STATUS } = require('../responses');
 const { ValidationError } = require('./custom-exceptions');
 
-const errorHandler = (err, req, res) => {
+const errorHandler = (err, req, res, next) => {
 
     const apiResponse = new ApiResponse();
     apiResponse.code = err.statusCode || 500;

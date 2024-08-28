@@ -2,15 +2,15 @@ const express = require('express');
 const dotenv = require('dotenv');
 const sequelize = require('./config/sequelize');
 const errorHandler = require('./utils/exceptions/exception-handler');
+const authRoutes = require('./routes/authentication/auth-routes');
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.send('Welcome to the Dockerized Node.js App!');
-});
+app.use(express.json());
+app.use('/v1/auth/', authRoutes);
 app.use(errorHandler);
 
 sequelize.sync({ force: false })
