@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  node-jwt:
+    build: .
+    command: npm run dev
+    ports:
+      - "3010:3000"
+    env_file:
+      - ./.env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules 
+    depends_on:
+      - node-jwt-db
+
+  node-jwt-db:
+    image: mysql:8.0.31
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - "3312:3306"
+    volumes:
+      - node-jwt-db:/var/lib/mysql
+
+volumes:
+  node-jwt-db:
