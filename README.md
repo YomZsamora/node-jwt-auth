@@ -33,9 +33,9 @@ The `node-jwt-auth` project is designed to provide a solid foundation for buildi
 
 ## Setup Installations Requirements
 
-To set up and run the application locally, follow these steps:
+    * To set up and run the application locally, follow these steps:
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/YomZsamora/node-jwt-auth.git
-   cd node-jwt-auth
+    1. **Clone the repository:**
+    
+    git clone https://github.com/YomZsamora/node-jwt-auth.git
+    cd node-jwt-auth
