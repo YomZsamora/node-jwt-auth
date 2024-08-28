@@ -33,9 +33,11 @@ The `node-jwt-auth` project is designed to provide a solid foundation for buildi
 
 ## Setup Installations Requirements
 
-    * To set up and run the application locally, follow these steps:
+* To set up and run the application locally, follow these steps:
 
-    1. **Clone the repository:**
-    
-    git clone https://github.com/YomZsamora/node-jwt-auth.git
-    cd node-jwt-auth
+    1. git clone https://github.com/YomZsamora/node-jwt-auth.git.
+    2. Create a .env file in the root directory and add your environment variables.
+    3. Install dependencies: `npm install`.
+    4. Run database migrations: `npx sequelize db:migrate`.
+    5. Start the development server: `docker-compose up --build -d`.
+    6. Navigate to http://localhost:3010/ in your browser or use Postman to interact with the API.
