@@ -4,6 +4,7 @@ const sequelize = require('./config/sequelize');
 const errorHandler = require('./utils/exceptions/exception-handler');
 const authRoutes = require('./routes/authentication/auth-routes');
 const userRoutes = require('./routes/user/user-routes');
+require('./models/associations');
 
 dotenv.config();
 

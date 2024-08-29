@@ -1,3 +1,4 @@
+const { User, RefreshToken, Group, UserGroup, Permission, GroupPermission } = require('../models/associations');
 const User = require('../models/authentication/user');
 
 beforeEach(async () => {
