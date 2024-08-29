@@ -1,21 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/sequelize'); 
-const User = require('./user');
-const Group = require('./group');
 
 const UserGroup = sequelize.define('UserGroup', {
     
     userId: {
         type: DataTypes.INTEGER,
         references: {
-            model: User,
+            model: 'users',
             key: 'id',
         },
     },
     groupId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Group,
+            model: 'groups',
             key: 'id',
         },
     },
