@@ -4,7 +4,7 @@ const User = require('../models/authentication/user');
 const { check, validationResult } = require('express-validator');
 const RefreshToken = require('../models/authentication/refresh-token');
 const { ValidationError, NotAuthenticated, PermissionDenied } = require('../utils/exceptions/custom-exceptions');
-const { emailValidator, firstNameValidator, lastNameValidator, passwordValidator } = require('../utils/validators/auth-validators');
+const { emailValidator, firstNameValidator, lastNameValidator, passwordValidator, passwordConfirmationValidator } = require('../utils/validators/auth-validators');
 
 /**
 * Middleware for validating login request parameters.
@@ -118,6 +118,7 @@ const validateUserRegistration = [
     firstNameValidator,
     lastNameValidator,
     passwordValidator,
+    passwordConfirmationValidator,
     async (req, res, next) => {
         try {
             const errors = validationResult(req);

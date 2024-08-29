@@ -29,9 +29,7 @@ const passwordValidator = body('password')
 const passwordConfirmationValidator = body('passwordConfirm')
     .not().isEmpty().withMessage('Password confirmation is required.')
     .custom((value, { req }) => {
-        if (value !== req.body.password) {
-            throw new ValidationError('Passwords do not match.');
-        }
+        if (value !== req.body.password) throw new ValidationError('Passwords do not match.');
         return true;
     });
     
