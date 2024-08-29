@@ -1,10 +1,6 @@
 const { User, RefreshToken, Group, UserGroup, Permission, GroupPermission } = require('../models/associations');
-const bcrypt = require('bcryptjs');
 
-const hashPassword = (password) => {
-    const saltRounds = 10;
-    return bcrypt.hashSync(password, saltRounds);
-};
+let test_user; // Define user object at a higher scope
 
 beforeEach(async () => {
 
@@ -30,22 +26,15 @@ beforeEach(async () => {
 
         console.log('All models synced successfully.');
 
-        // Insert mock users
-        await User.bulkCreate([
-            {
-                email: 'test1@example.com',
-                firstName: 'John',
-                lastName: 'Doe',
-                password: hashPassword('password123'),
-            },
-            {
-                email: 'test2@example.com',
-                firstName: 'Jane',
-                lastName: 'Doe',
-                password: hashPassword('password123'),
-            },
-        ]);
+        test_user = await User.create({
+            email: 'test1@example.com',
+            firstName: 'John',
+            lastName: 'Doe',
+            password: 'password123',
+        });
     } catch (error) {
         console.error('Error during setup:', error);
     }
 });
+
+module.exports = { test_user }

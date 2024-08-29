@@ -31,14 +31,27 @@ The `node-jwt-auth` project is designed to provide a solid foundation for buildi
 - **Jest:** Testing framework for unit and integration tests.
 - **Docker:** Containerization of the application.
 
+## Docker Compose Setup
+
+This project supports Docker containerization for easy deployment. To run the application using Docker Compose, follow these steps:
+
+1. Make sure you have Docker installed on your machine.
+2. Create a `.env` file in the root directory and add the necessary environment variables.
+3. Build and start the containers using Docker Compose:
+    ```sh
+    docker-compose up --build -d
+    ```
+4. The application should now be running inside a Docker container.
+5. Access the API at http://localhost:3010/ or use Postman for interactions.
+
 ## Setup Installations Requirements
 
     * To set up and run the application locally, follow these steps:
 
     1. git clone https://github.com/YomZsamora/node-jwt-auth.git.
-    2. Create a .env file in the root directory and add your environment variables.
-    3. Install dependencies: `npm install`.
-    4. Run database migrations: `npx sequelize db:migrate`.
+    2. Create a .env file in the root directory and add the environment variables.
+    3. Install dependencies: `docker-compose exec node-jwt npm install`.
+    4. Run database migrations: `docker-compose exec node-jwt npx sequelize db:migrate`.
     5. Start the development server: `docker-compose up --build -d`.
     6. Navigate to http://localhost:3010/ in your browser or use Postman to interact with the API.
 
