@@ -37,6 +37,16 @@ This project supports Docker containerization for easy deployment. To run the ap
 
 1. Make sure you have Docker installed on your machine.
 2. Create a `.env` file in the root directory and add the necessary environment variables.
+    ```sh
+    - `MYSQL_ENGINE`: MySQL engine type (e.g., mysql.connector.django).
+    - `MYSQL_DATABASE`: Main database name for the application.
+    - `MYSQL_DATABASE_TEST`: Database name used for testing purposes.
+    - `MYSQL_USER`: MySQL username for accessing the databases.
+    - `MYSQL_PASSWORD`: Password for the MySQL user.
+    - `MYSQL_ROOT_PASSWORD`: Root password for MySQL.
+    - `MYSQL_HOST`: Hostname where MySQL is running (e.g., node-jwt-db).
+    - `MYSQL_PORT`: Port on which MySQL is listening (default is 3306).
+    ```
 3. Build and start the containers using Docker Compose:
     ```sh
     docker-compose up --build -d
