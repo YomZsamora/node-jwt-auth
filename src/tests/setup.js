@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const { test } = require('../config/config.js');
 
 module.exports = async () => {
-    const sequelize = new Sequelize(test.database, test.username, test.password, {
+    const sequelize = new Sequelize('', test.username, test.password, {
         host: test.host,
         dialect: test.dialect,
     });
