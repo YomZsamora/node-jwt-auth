@@ -7,7 +7,7 @@ const emailValidator = body('email')
     .custom(async (value) => {
         const user = await User.findOne({ where: { email: value } });
         if (user) {
-            return Promise.reject('Email already exists. Please use a different email.');
+            return Promise.reject(`${value} already exists. Please use a different email.`);
         }
     });
 
