@@ -1,6 +1,13 @@
 const { User, RefreshToken, Group, UserGroup, Permission, GroupPermission } = require('../models/associations');
+const bcrypt = require('bcryptjs');
+
+const hashPassword = (password) => {
+    const saltRounds = 10;
+    return bcrypt.hashSync(password, saltRounds);
+};
 
 beforeEach(async () => {
+
     try {
         // Sync tables in the correct order
         console.log('Dropping and syncing tables in the correct order...');
@@ -29,16 +36,15 @@ beforeEach(async () => {
                 email: 'test1@example.com',
                 firstName: 'John',
                 lastName: 'Doe',
-                password: 'password123',
+                password: hashPassword('password123'),
             },
             {
                 email: 'test2@example.com',
                 firstName: 'Jane',
                 lastName: 'Doe',
-                password: 'password123',
+                password: hashPassword('password123'),
             },
         ]);
-
     } catch (error) {
         console.error('Error during setup:', error);
     }
