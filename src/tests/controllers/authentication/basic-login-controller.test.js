@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../../index'); // Adjust the path to your Express app
-const User = require('../../../models/authentication/user');
+const { User } = require('../../../models/associations');
 
 describe('User Login', () => {
     it('should log in a user with valid credentials', async () => {
@@ -10,7 +10,7 @@ describe('User Login', () => {
             email: 'test1@example.com',
             password: 'password123',
         });
-        
+        console.log(response.body);
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('token');
     });

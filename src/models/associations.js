@@ -1,9 +1,9 @@
 const User = require('./authentication/user');
 const RefreshToken = require('./authentication/refresh-token');
-const Group = require('./authorization/group');
-const UserGroup = require('./authorization/user-group');
-const Permission = require('./authorization/permission');
-const GroupPermission = require('./authorization/group-permission');
+const Group = require('./authentication/group');
+const UserGroup = require('./authentication/user-group');
+const Permission = require('./authentication/permission');
+const GroupPermission = require('./authentication/group-permission');
 
 // User and RefreshToken: One-to-Many
 User.hasMany(RefreshToken, {
@@ -46,10 +46,10 @@ Permission.belongsToMany(Group, {
 
 
 module.exports = {
-    User,
     RefreshToken,
-    Group,
     UserGroup,
-    Permission,
     GroupPermission,
+    User,
+    Group,
+    Permission,
 };
