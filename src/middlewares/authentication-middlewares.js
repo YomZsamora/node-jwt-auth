@@ -112,6 +112,23 @@ const hasAllPermissions = (requiredPermissions) => {
     };
 }
 
+/**
+* Express middleware function for validating user registration data.
+* It includes validators for email, first name, last name, password, and password confirmation.
+* If validation fails, it throws a custom ValidationError with detailed error messages.
+* 
+* @middleware
+* @constant {Array} validateUserRegistration - Array of validation functions to be executed as middleware
+* @constant {Function} emailValidator - Validator function for email field
+* @constant {Function} firstNameValidator - Validator function for first name field
+* @constant {Function} lastNameValidator - Validator function for last name field
+* @constant {Function} passwordValidator - Validator function for password field
+* @constant {Function} passwordConfirmationValidator - Validator function for password confirmation field
+* 
+* @param {Object} req - Express request object
+* @param {Object} res - Express response object
+* @param {Function} next - Express next middleware function
+*/
 const validateUserRegistration = [
     
     emailValidator,

@@ -1,3 +1,11 @@
+/**
+* Controller function for handling user registration.
+* @param {Object} req - Express request object containing user registration details in req.body.
+* @param {Object} res - Express response object to send back the API response.
+* @param {Function} next - Express next function to pass control to the next middleware.
+* @returns {Object} JSON response indicating the outcome of the user registration process.
+*/
+
 const User = require('../../models/authentication/user');
 const { ApiResponse } = require('../../utils/responses');
 

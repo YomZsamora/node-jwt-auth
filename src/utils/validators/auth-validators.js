@@ -1,3 +1,10 @@
+/**
+* Validators for user registration fields using express-validator.
+* These validators ensure the correctness and validation of user input data.
+*
+* @module authValidators
+*/
+
 const { body } = require('express-validator');
 const User = require('../../models/authentication/user');
 const { ValidationError } = require('../exceptions/custom-exceptions');
