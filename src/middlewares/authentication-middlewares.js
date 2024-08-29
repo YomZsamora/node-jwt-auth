@@ -1,5 +1,5 @@
 const { check, validationResult } = require('express-validator');
-const { ValidationError, NotAuthenticated } = require('../utils/exceptions/custom-exceptions');
+const { ValidationError, NotAuthenticated, PermissionDenied } = require('../utils/exceptions/custom-exceptions');
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/authentication/refresh-token');
 const { JWT_SECRET_KEY } = process.env;
@@ -62,4 +62,31 @@ const isUserAuthenticated = (req, res, next) => {
         return next(error);
     }
 }
-module.exports = { validateLogin, validateRefreshToken, isUserAuthenticated };
+
+const hasAnyPermission = (requiredPermissions) => {
+    return async (req, res, next) => {
+        await isUserAuthenticated(req, res, async (error) => {
+            if (error instanceof NotAuthenticated) return next(error);
+            const userPermissions = req.currentUser.permissions;
+            if (requiredPermissions.some(perm => userPermissions.includes(perm))) {
+                return next();
+            }
+            return next(new PermissionDenied());
+        });
+    };
+}
+
+const hasAllPermissions = (requiredPermissions) => {
+    return async (req, res, next) => {
+        await isUserAuthenticated(req, res, async (error) => {
+            if (error instanceof NotAuthenticated) return next(error);
+            const userPermissions = req.currentUser.permissions;
+            if (requiredPermissions.every(perm => userPermissions.includes(perm))) {
+                return next();
+            }
+            return next(new PermissionDenied());
+        });
+    };
+}
+
+module.exports = { validateLogin, validateRefreshToken, isUserAuthenticated, hasAnyPermission, hasAllPermissions };
