@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 const User = require('../../models/authentication/user');
+const { ValidationError } = require('../exceptions/custom-exceptions');
 
 const emailValidator = body('email')
     .isEmail().withMessage('Valid email address is required.')
@@ -25,9 +26,20 @@ const passwordValidator = body('password')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/)
     .withMessage('Password must contain at least one digit, one lowercase letter, and one uppercase letter.');
 
+const passwordConfirmationValidator = body('passwordConfirm')
+    .not().isEmpty().withMessage('Password confirmation is required.')
+    .custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new ValidationError('Passwords do not match.');
+        }
+        return true;
+    });
+    
+
 module.exports = {
     emailValidator,
     firstNameValidator,
     lastNameValidator,
-    passwordValidator
+    passwordValidator,
+    passwordConfirmationValidator
 }
