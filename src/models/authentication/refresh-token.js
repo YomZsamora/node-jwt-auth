@@ -23,6 +23,7 @@ const RefreshToken = sequelize.define('RefreshToken', {
     },
 }, {
     tableName: 'refresh_tokens',
+    timestamps: true,
 });
 
 module.exports = RefreshToken;

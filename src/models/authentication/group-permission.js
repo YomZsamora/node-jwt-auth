@@ -19,6 +19,7 @@ const GroupPermission = sequelize.define('GroupPermission', {
     },
 }, {
     tableName: 'group_permissions',
+    timestamps: false,
 });
 
 module.exports = GroupPermission;

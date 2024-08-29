@@ -19,6 +19,7 @@ const UserGroup = sequelize.define('UserGroup', {
     },
 }, {
     tableName: 'user_groups',
+    timestamps: false,
 });
 
 module.exports = UserGroup;
