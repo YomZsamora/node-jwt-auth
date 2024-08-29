@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const sequelize = require('./config/sequelize');
 const errorHandler = require('./utils/exceptions/exception-handler');
 const authRoutes = require('./routes/authentication/auth-routes');
+const userRoutes = require('./routes/user/user-routes');
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use('/v1/auth/', authRoutes);
+app.use('/v1/user/', userRoutes);
 app.use(errorHandler);
 
 sequelize.sync({ force: false })
