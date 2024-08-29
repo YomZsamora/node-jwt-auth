@@ -73,11 +73,11 @@ This project includes unit and integration tests to ensure the correctness of th
 
 To run the tests:
 ```sh
-npm test
+docker-compose exec node-jwt npm test
 ```
 To run tests in watch mode:
 ```sh
-npm run test:watch
+docker-compose exec node-jwt npm run test:watch
 ```
 
 ### Known Bugs
