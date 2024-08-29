@@ -2,12 +2,15 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
 const uuid = require('uuid');
 const RefreshToken = require('../models/authentication/refresh-token');
+const { getUserPermissions } = require('./user-helpers')
 
 const generateAccessToken = async (user) => {
     
+    const permissions = await getUserPermissions(user.id);
     payload = {
         userId: user.id,
         email: user.email,
+        permissions,
         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24), // 1 day expiration
     }
     return jwt.sign(payload, JWT_SECRET_KEY, { algorithm: 'HS256' });
