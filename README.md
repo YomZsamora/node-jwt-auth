@@ -44,8 +44,9 @@ This project supports Docker containerization for easy deployment. To run the ap
     - `MYSQL_USER`: MySQL username for accessing the databases.
     - `MYSQL_PASSWORD`: Password for the MySQL user.
     - `MYSQL_ROOT_PASSWORD`: Root password for MySQL.
-    - `MYSQL_HOST`: Hostname where MySQL is running (db-container, node-jwt-db).
+    - `MYSQL_HOST`: Hostname where MySQL is running - the database container (node-jwt-db).
     - `MYSQL_PORT`: Port on which MySQL is listening (default is 3306).
+    - `JWT_SECRET_KEY`: Secret key used for JWT token generation and validation.
     ```
 3. Build and start the containers using Docker Compose:
     ```sh
