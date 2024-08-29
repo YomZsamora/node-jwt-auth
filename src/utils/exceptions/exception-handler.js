@@ -1,3 +1,11 @@
+/**
+* Handles errors and returns appropriate responses.
+* @param {Error} err - The error object.
+* @param {Request} req - The request object.
+* @param {Response} res - The response object.
+* @param {NextFunction} next - The next middleware function.
+*/
+
 const { ApiResponse, ERROR_STATUS } = require('../responses');
 const { ValidationError, NotAuthenticated, PermissionDenied, NotFound } = require('./custom-exceptions');
 

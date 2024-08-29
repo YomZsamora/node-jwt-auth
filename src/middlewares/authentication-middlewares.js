@@ -1,10 +1,14 @@
-const { check, validationResult } = require('express-validator');
-const { ValidationError, NotAuthenticated, PermissionDenied } = require('../utils/exceptions/custom-exceptions');
 const jwt = require('jsonwebtoken');
-const RefreshToken = require('../models/authentication/refresh-token');
 const { JWT_SECRET_KEY } = process.env;
 const User = require('../models/authentication/user');
+const { check, validationResult } = require('express-validator');
+const RefreshToken = require('../models/authentication/refresh-token');
+const { ValidationError, NotAuthenticated, PermissionDenied } = require('../utils/exceptions/custom-exceptions');
 
+/**
+* Middleware for validating login request parameters.
+* @function validateLogin
+*/
 const validateLogin = [
     check('email').isEmail().withMessage('Valid email address is required.').bail(),
     check('password').not().isEmpty().withMessage('Password is required.').bail(),
@@ -18,6 +22,10 @@ const validateLogin = [
     }
 ];
 
+/**
+* Middleware for validating refresh token in a request.
+* @function validateRefreshToken
+*/
 const validateRefreshToken = [
 
     check('refreshToken').not().isEmpty().withMessage('Refresh token is required.').bail(),
@@ -42,6 +50,10 @@ const validateRefreshToken = [
     }
 ];
 
+/**
+* Middleware for checking if user is authenticated based on JWT.
+* @function isUserAuthenticated
+*/
 const isUserAuthenticated = (req, res, next) => {
     
     if (req.method === "OPTIONS") {
@@ -63,6 +75,11 @@ const isUserAuthenticated = (req, res, next) => {
     }
 }
 
+/**
+* Middleware to check if user has any of the required permissions.
+* @function hasAnyPermission
+* @param {Array} requiredPermissions - List of required permissions.
+*/
 const hasAnyPermission = (requiredPermissions) => {
     return async (req, res, next) => {
         await isUserAuthenticated(req, res, async (error) => {
@@ -76,6 +93,11 @@ const hasAnyPermission = (requiredPermissions) => {
     };
 }
 
+/**
+ * Middleware to check if user has all the required permissions.
+ * @function hasAllPermissions
+ * @param {Array} requiredPermissions - List of required permissions.
+ */
 const hasAllPermissions = (requiredPermissions) => {
     return async (req, res, next) => {
         await isUserAuthenticated(req, res, async (error) => {
@@ -89,4 +111,10 @@ const hasAllPermissions = (requiredPermissions) => {
     };
 }
 
-module.exports = { validateLogin, validateRefreshToken, isUserAuthenticated, hasAnyPermission, hasAllPermissions };
+module.exports = { 
+    validateLogin, 
+    validateRefreshToken, 
+    isUserAuthenticated, 
+    hasAnyPermission, 
+    hasAllPermissions 
+};

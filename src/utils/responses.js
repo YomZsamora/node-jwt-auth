@@ -1,3 +1,6 @@
+/**
+* Represents a standard API response format.
+*/
 
 const ERROR_STATUS = "error";
 const SUCCESS_STATUS = "success";

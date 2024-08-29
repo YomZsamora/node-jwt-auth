@@ -1,6 +1,14 @@
+/**
+* Controller function to fetch user details by user ID.
+* @param {Object} req - The request object.
+* @param {Object} res - The response object.
+* @param {Function} next - The next middleware function.
+* @returns {Object} JSON response containing user details or an error message.
+*/
+
 const User = require('../../models/authentication/user');
-const { NotFound } = require('../../utils/exceptions/custom-exceptions');
 const { ApiResponse } = require('../../utils/responses');
+const { NotFound } = require('../../utils/exceptions/custom-exceptions');
 
 const fetchUserController = async (req, res, next) => {
 
@@ -21,7 +29,6 @@ const fetchUserController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 }
 
 module.exports = { fetchUserController };
