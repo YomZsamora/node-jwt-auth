@@ -1,5 +1,5 @@
 const { check, validationResult } = require('express-validator');
-const { ValidationError } = require('../utils/exceptions/custom-exceptions');
+const { ValidationError, NotAuthenticated } = require('../utils/exceptions/custom-exceptions');
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/authentication/refresh-token');
 const { JWT_SECRET_KEY } = process.env;
@@ -42,4 +42,24 @@ const validateRefreshToken = [
     }
 ];
 
-module.exports = { validateLogin, validateRefreshToken };
+const isUserAuthenticated = (req, res, next) => {
+    
+    if (req.method === "OPTIONS") {
+        next();
+    }
+    try {
+        const authorizationHeader = req.headers('authorization');
+        if (!authorizationHeader) throw new NotAuthenticated();
+        const token = authorizationHeader.replace("Bearer ", "").trim();
+        const token_payload = jwt.verify(token, JWT_SECRET_KEY, { algorithms: ['HS256'] });
+        req.currentUser = {
+            userId: token_payload.userId,
+            email: token_payload.email,
+            permissions: token_payload.permissions
+        };
+        next();
+    } catch (error) {
+        return next(error);
+    }
+}
+module.exports = { validateLogin, validateRefreshToken, isUserAuthenticated };
