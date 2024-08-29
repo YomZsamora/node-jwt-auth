@@ -1,9 +1,9 @@
 const { body } = require('express-validator');
+const User = require('../../models/authentication/user');
 
 const emailValidator = body('email')
     .isEmail().withMessage('Valid email address is required.')
     .not().isEmpty().withMessage('Email is required.')
-    .not().isNull().withMessage('Email cannot be null.')
     .custom(async (value) => {
         const user = await User.findOne({ where: { email: value } });
         if (user) {

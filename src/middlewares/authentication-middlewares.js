@@ -4,6 +4,7 @@ const User = require('../models/authentication/user');
 const { check, validationResult } = require('express-validator');
 const RefreshToken = require('../models/authentication/refresh-token');
 const { ValidationError, NotAuthenticated, PermissionDenied } = require('../utils/exceptions/custom-exceptions');
+const { emailValidator, firstNameValidator, lastNameValidator, passwordValidator } = require('../utils/validators/auth-validators');
 
 /**
 * Middleware for validating login request parameters.
@@ -113,30 +114,10 @@ const hasAllPermissions = (requiredPermissions) => {
 
 const validateUserRegistration = [
     
-    check('email')
-        .isEmail().withMessage('Valid email address is required.')
-        .not().isEmpty().withMessage('Email is required.')
-        .not().isNull().withMessage('Email cannot be null.')
-        .custom(async (value) => {
-            const user = await User.findOne({ where: { email: value } });
-            if (user) {
-                return Promise.reject('Email already exists. Please use a different email.');
-            }
-        }),
-    check('firstName')
-        .exists().withMessage('First name is required.')
-        .not().isEmpty().withMessage('First name cannot be empty.')
-        .bail(),
-    check('last name')
-        .exists().withMessage('Last name is required.')
-        .not().isEmpty().withMessage('Last name cannot be empty.')
-        .bail(),
-    check('password')
-        .not().isEmpty().withMessage('Password is required.')
-        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long.')
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/)
-        .withMessage('Password must contain at least one digit, one lowercase letter, and one uppercase letter.')
-        .bail(),
+    emailValidator,
+    firstNameValidator,
+    lastNameValidator,
+    passwordValidator,
     async (req, res, next) => {
         try {
             const errors = validationResult(req);
