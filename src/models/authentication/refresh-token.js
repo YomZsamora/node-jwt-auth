@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/sequelize'); 
-const User = require('./user');
 
 const RefreshToken = sequelize.define('RefreshToken', {
 
@@ -13,7 +12,7 @@ const RefreshToken = sequelize.define('RefreshToken', {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: User,
+            model: 'users',
             key: 'id',
         },
         onDelete: 'SET NULL',
