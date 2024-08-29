@@ -16,7 +16,7 @@ class NotAuthenticated extends Error {
     }
 }
 
-class PermisionDenied extends Error {
+class PermissionDenied extends Error {
     constructor() {
         super("You don't have required permission to perform this action.");
         this.statusCode = 403;
@@ -32,4 +32,4 @@ class NotFound extends Error {
     }
 }
 
-module.exports = { ValidationError, NotAuthenticated, PermisionDenied, NotFound }
+module.exports = { ValidationError, NotAuthenticated, PermissionDenied, NotFound }
