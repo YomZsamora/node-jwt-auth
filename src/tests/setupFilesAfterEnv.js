@@ -1,5 +1,7 @@
 const { User, RefreshToken, Group, UserGroup, Permission, GroupPermission } = require('../models/associations');
 const { generateRefreshToken } = require('../utils/tokens');
+const { JWT_SECRET_KEY } = process.env;
+const jwt = require('jsonwebtoken');
 
 beforeAll(async () => {
 
