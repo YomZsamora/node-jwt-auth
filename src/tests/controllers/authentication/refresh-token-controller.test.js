@@ -29,14 +29,14 @@ describe('Token Refresh', () => {
         );
     });
     
-    it('should return 400 if refreshToken is invalid', async () => {
+    it('should return 401 if refreshToken is invalid', async () => {
         const response = await request(app)
         .post('/v1/auth/refresh-token')
         .send({ refreshToken: 'invalidtoken' });
         
-        expect(response.status).toBe(400);
+        expect(response.status).toBe(401);
         expect(response.body).toHaveProperty('status', 'error');
-        expect(response.body).toHaveProperty('message', 'Invalid or expired refresh token.');
+        expect(response.body).toHaveProperty('message', 'Authentication credentials were not provided.');
     });
     
     it('should return 400 if refreshToken has expired', async () => {
