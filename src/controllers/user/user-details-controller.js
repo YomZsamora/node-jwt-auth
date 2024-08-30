@@ -23,7 +23,9 @@ const userDetailsController = async (req, res, next) => {
             userId: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
-            lastLogin: user.lastLogin
+            lastLogin: user.lastLogin,
+            updatedAt: user.updatedAt,
+            createdAt: user.createdAt
         }
         return res.status(apiResponse.code).json(apiResponse);
     } catch (error) {
