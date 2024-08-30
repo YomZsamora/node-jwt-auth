@@ -10,7 +10,7 @@ const User = require('../../models/authentication/user');
 const { ApiResponse } = require('../../utils/responses');
 const { NotFound } = require('../../utils/exceptions/custom-exceptions');
 
-const fetchUserController = async (req, res, next) => {
+const userDetailsController = async (req, res, next) => {
 
     try {
         const { userId } = req.params;
@@ -31,4 +31,4 @@ const fetchUserController = async (req, res, next) => {
     }
 }
 
-module.exports = { fetchUserController };
+module.exports = { userDetailsController };
