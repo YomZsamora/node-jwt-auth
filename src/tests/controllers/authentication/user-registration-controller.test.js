@@ -108,7 +108,7 @@ describe('User Registration', () => {
                 password: 'pass',
                 passwordConfirm: 'pass',
             });
-        console.log(response.body);
+        
         expect(response.status).toBe(400);
         expect(response.body).toHaveProperty('status', 'error');
         expect(response.body).toHaveProperty('message', 'An error occurred during registration.');
@@ -116,6 +116,28 @@ describe('User Registration', () => {
         expect(response.body.data).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ password: 'Password must be at least 6 characters long.' })
+            ])
+        );
+    });
+
+    it('should return an error if the password does not meet strength requirements', async () => {
+        const response = await request(app)
+            .post('/v1/auth/user-registration')
+            .send({
+                email: 'test5@example.com',
+                firstName: 'Curtis',
+                lastName: 'Jackson',
+                password: 'password',
+                passwordConfirm: 'password',
+            });
+
+        expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('status', 'error');
+        expect(response.body).toHaveProperty('message', 'An error occurred during registration.');
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ password: 'Password must contain at least one digit, one lowercase letter, and one uppercase letter.' })
             ])
         );
     });
