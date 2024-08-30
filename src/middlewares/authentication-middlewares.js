@@ -65,7 +65,7 @@ const isUserAuthenticated = (req, res, next) => {
         const authorizationHeader = req.headers['authorization'];
         if (!authorizationHeader) throw new NotAuthenticated();
         const token = authorizationHeader.replace("Bearer ", "").trim();
-        const token_payload = jwt.verify(token, JWT_SECRET_KEY, { algorithms: ['HS256'] });
+        const token_payload = extractTokenPayload(token);
         req.currentUser = {
             userId: token_payload.userId,
             email: token_payload.email,
