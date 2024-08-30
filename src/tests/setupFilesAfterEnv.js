@@ -29,6 +29,17 @@ beforeAll(async () => {
     }
 });
 
+function generateTestAuthToken(user, permissions = []) {
+    const tokenPayload = {
+        userId: user.id,
+        email: user.email,
+        permissions,
+        exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour expiration
+    };
+    const token = jwt.sign(tokenPayload, JWT_SECRET_KEY, { algorithm: 'HS256' });
+    return `Bearer ${token}`;
+}
+
 async function createUser(email, firstName, lastName, password) {
     const user = await User.create({ email, firstName, lastName, password });
     return user;
@@ -42,5 +53,6 @@ async function createRefreshToken(user) {
 module.exports = {
     createUser,
     createRefreshToken,
+    generateTestAuthToken
 };
 
