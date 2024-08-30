@@ -4,6 +4,6 @@ const { hasAnyPermission } = require('../../middlewares/authentication-middlewar
 
 const router = express.Router();
 
-router.get('/:userId/details', hasAnyPermission(['view_user']), fetchUserController);
+router.get('/:userId/details', hasAnyPermission(['view_user']), userDetailsController);
 
 module.exports = router;
