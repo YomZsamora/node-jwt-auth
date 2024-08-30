@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../../index'); 
+const { User } = require('../../../models/authentication/user');
 
 describe('User Registration', () => {
     
@@ -10,8 +11,8 @@ describe('User Registration', () => {
         .post('/v1/auth/user-registration')
         .send({
             email: testUserEmail,
-            firstName: 'Jane',
-            lastName: 'Doe',
+            firstName: 'Olunga',
+            lastName: 'Mike',
             password: 'Password123!',
             passwordConfirm: 'Password123!',
         });
@@ -25,8 +26,8 @@ describe('User Registration', () => {
         const userData = response.body.data;
         expect(userData).toHaveProperty('userId');
         expect(userData).toHaveProperty('email', testUserEmail);
-        expect(userData).toHaveProperty('firstName', 'Jane');
-        expect(userData).toHaveProperty('lastName', 'Doe');
+        expect(userData).toHaveProperty('firstName', 'Olunga');
+        expect(userData).toHaveProperty('lastName', 'Mike');
         expect(userData).toHaveProperty('createdAt');
         expect(userData).toHaveProperty('updatedAt');
     });
@@ -36,8 +37,8 @@ describe('User Registration', () => {
             .post('/v1/auth/user-registration')
             .send({
                 email: testUserEmail, 
-                firstName: 'Jane',
-                lastName: 'Doe',
+                firstName: 'Mary',
+                lastName: 'Jane',
                 password: 'Password123!',
                 passwordConfirm: 'Password123!',
             });
@@ -58,8 +59,8 @@ describe('User Registration', () => {
             .post('/v1/auth/user-registration')
             .send({
                 email: 'test3@example.com',
-                firstName: 'John',
-                lastName: 'Doe',
+                firstName: 'Domani',
+                lastName: 'Munga',
                 password: 'Password123!',
                 passwordConfirm: 'DifferentPassword123!',
             });
@@ -96,5 +97,26 @@ describe('User Registration', () => {
             ])
         );
     });
-    
+
+    it('should return an error if the password is too short', async () => {
+        const response = await request(app)
+            .post('/v1/auth/user-registration')
+            .send({
+                email: 'test4@example.com',
+                firstName: 'Khaligraph',
+                lastName: 'Jones',
+                password: 'pass',
+                passwordConfirm: 'pass',
+            });
+        console.log(response.body);
+        expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('status', 'error');
+        expect(response.body).toHaveProperty('message', 'An error occurred during registration.');
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ password: 'Password must be at least 6 characters long.' })
+            ])
+        );
+    });
 });
