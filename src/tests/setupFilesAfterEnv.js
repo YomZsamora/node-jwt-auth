@@ -1,8 +1,6 @@
 const { User, RefreshToken, Group, UserGroup, Permission, GroupPermission } = require('../models/associations');
 
-let test_user; // Define user object at a higher scope
-
-beforeEach(async () => {
+beforeAll(async () => {
 
     try {
         // Sync tables in the correct order
@@ -25,16 +23,17 @@ beforeEach(async () => {
         await GroupPermission.sync({ force: true });
 
         console.log('All models synced successfully.');
-
-        test_user = await User.create({
-            email: 'test1@example.com',
-            firstName: 'John',
-            lastName: 'Doe',
-            password: 'password123',
-        });
     } catch (error) {
         console.error('Error during setup:', error);
     }
 });
 
-module.exports = { test_user }
+async function createUser(email, firstName, lastName, password) {
+    const user = await User.create({ email, firstName, lastName, password, });
+    return user;
+}
+
+module.exports = {
+    createUser,
+};
+
