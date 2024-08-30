@@ -29,9 +29,9 @@ beforeAll(async () => {
 });
 
 async function createUser(email, firstName, lastName, password) {
-    const user = await User.create({ email, firstName, lastName, password, });
+    const user = await User.create({ email, firstName, lastName, password });
     return user;
-}
+};
 
 module.exports = {
     createUser,
