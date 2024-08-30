@@ -15,6 +15,7 @@ const userRegistrationController = async (req, res, next) => {
         const { email, firstName, lastName, password } = req.body;
         const user = await User.create({ email, firstName, lastName, password });
         const apiResponse = new ApiResponse();
+        apiResponse.code = 201;
         apiResponse.message = `${email} has been successfully registered.`;
         apiResponse.data = {
             userId: user.id,
