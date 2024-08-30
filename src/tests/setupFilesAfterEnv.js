@@ -1,4 +1,5 @@
 const { User, RefreshToken, Group, UserGroup, Permission, GroupPermission } = require('../models/associations');
+const { generateRefreshToken } = require('../utils/tokens');
 
 beforeAll(async () => {
 
@@ -29,11 +30,17 @@ beforeAll(async () => {
 });
 
 async function createUser(email, firstName, lastName, password) {
-    const user = await User.create({ email, firstName, lastName, password, });
+    const user = await User.create({ email, firstName, lastName, password });
     return user;
-}
+};
+
+async function createRefreshToken(user) {
+    const refreshToken = await generateRefreshToken(user);
+    return refreshToken;
+};
 
 module.exports = {
     createUser,
+    createRefreshToken,
 };
 

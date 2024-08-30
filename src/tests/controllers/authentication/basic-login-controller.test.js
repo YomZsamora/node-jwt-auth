@@ -7,7 +7,7 @@ describe('Basic Login', () => {
     let testUser;
 
     beforeAll(async () => {
-        testUser = await createUser('test1@example.com', 'John', 'Doe', 'password123');
+        testUser = await createUser('samora@example.com', 'Samora', 'Yommie', 'password123');
     });
 
     it('should authenticate a user with valid credentials', async () => {

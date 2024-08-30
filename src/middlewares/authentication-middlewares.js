@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET_KEY } = process.env;
+const { extractTokenPayload } = require('../utils/tokens');
 const User = require('../models/authentication/user');
 const { check, validationResult } = require('express-validator');
 const RefreshToken = require('../models/authentication/refresh-token');
@@ -37,7 +38,7 @@ const validateRefreshToken = [
             if (!errors.isEmpty()) throw new ValidationError('An error occurred refreshing token.', validationErrors);
             
             const { refreshToken } = req.body;
-            const token_payload = jwt.verify(refreshToken, JWT_SECRET_KEY, { algorithms: ['HS256'] });
+            const token_payload = extractTokenPayload(refreshToken);
             const storedRefreshToken = await RefreshToken.findOne({ where: { jti: token_payload.jti } });
             if (!storedRefreshToken) throw new ValidationError('Invalid refresh token.');
             if (new Date(storedRefreshToken.expiryDate) < new Date()) throw new ValidationError('Refresh token has expired.');
@@ -64,7 +65,7 @@ const isUserAuthenticated = (req, res, next) => {
         const authorizationHeader = req.headers['authorization'];
         if (!authorizationHeader) throw new NotAuthenticated();
         const token = authorizationHeader.replace("Bearer ", "").trim();
-        const token_payload = jwt.verify(token, JWT_SECRET_KEY, { algorithms: ['HS256'] });
+        const token_payload = extractTokenPayload(token);
         req.currentUser = {
             userId: token_payload.userId,
             email: token_payload.email,
