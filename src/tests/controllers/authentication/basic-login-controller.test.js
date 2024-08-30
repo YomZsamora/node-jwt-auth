@@ -1,30 +1,33 @@
 const request = require('supertest');
 const app = require('../../../index'); 
-const { test_user } = require('../../setupFilesAfterEnv');
+const { createUser } = require('../../setupFilesAfterEnv');
 
 describe('Basic Login', () => {
+
+    let testUser;
+
+    beforeAll(async () => {
+        testUser = await createUser('test1@example.com', 'John', 'Doe', 'password123');
+    });
 
     it('should authenticate a user with valid credentials', async () => {
         const response = await request(app)
         .post('/v1/auth/basic-login')
         .send({
-            email: 'test1@example.com',
+            email: testUser.email,
             password: 'password123',
         });
-        console.log(response.body);
+        
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('code', 200);
         expect(response.body).toHaveProperty('status', 'success');
         expect(response.body).toHaveProperty('message', 'Logged in successfully.');
         expect(response.body).toHaveProperty('data');
 
-
-        console.log(test_user);
-
         const userData = response.body.data;
-        expect(userData).toHaveProperty('userId', test_user.id);
-        expect(userData).toHaveProperty('firstName', 'John');
-        expect(userData).toHaveProperty('lastName', 'Doe');
+        expect(userData).toHaveProperty('userId', testUser.id);
+        expect(userData).toHaveProperty('firstName', testUser.firstName);
+        expect(userData).toHaveProperty('lastName', testUser.lastName);
         expect(userData).toHaveProperty('accessToken');
         expect(userData).toHaveProperty('refreshToken');
     });
@@ -33,7 +36,7 @@ describe('Basic Login', () => {
         const response = await request(app)
         .post('/v1/auth/basic-login')
         .send({
-            email: 'test1@example.com',
+            email: testUser.email,
             password: 'wrongpassword',
         });
         
