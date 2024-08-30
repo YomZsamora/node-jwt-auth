@@ -45,15 +45,37 @@ describe('Token Refresh', () => {
         await RefreshToken.update(
             { expiryDate: new Date(Date.now() - 3600000) },
             { where: { jti: tokenPayload.jti } },
-          );
+        );
         
         const response = await request(app)
-        .post('/v1/auth/refresh-token')
-        .send({ refreshToken });
+            .post('/v1/auth/refresh-token')
+            .send({ refreshToken });
         
         expect(response.status).toBe(400);
         expect(response.body).toHaveProperty('status', 'error');
         expect(response.body).toHaveProperty('message', 'Refresh token has expired.');
+    });
+    
+    it('should return 200 and new tokens if refreshToken is valid', async () => {
+        
+        tokenPayload = extractTokenPayload(refreshToken);
+        await RefreshToken.update(
+            { expiryDate: new Date(Date.now() + 3600000) },
+            { where: { jti: tokenPayload.jti } },
+        );
+
+        const response = await request(app)
+            .post('/v1/auth/refresh-token')
+            .send({ refreshToken });
+        
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('message', 'Token refreshed successfully.');
+        expect(response.body.data).toHaveProperty('userId', testUser.id);
+        expect(response.body.data).toHaveProperty('firstName', testUser.firstName);
+        expect(response.body.data).toHaveProperty('lastName', testUser.lastName);
+        expect(response.body.data).toHaveProperty('lastLogin');
+        expect(response.body.data).toHaveProperty('accessToken');
+        expect(response.body.data).toHaveProperty('refreshToken');
     });
     
 });
