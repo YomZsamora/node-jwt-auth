@@ -77,5 +77,21 @@ describe('Token Refresh', () => {
         expect(response.body.data).toHaveProperty('accessToken');
         expect(response.body.data).toHaveProperty('refreshToken');
     });
+
+    it('should return 400 if refreshToken has been deleted', async () => {
+        
+        tokenPayload = extractTokenPayload(refreshToken);
+        await RefreshToken.destroy(
+            { where: { jti: tokenPayload.jti } },
+        );
+        
+        const response = await request(app)
+            .post('/v1/auth/refresh-token')
+            .send({ refreshToken });
+        
+        expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('status', 'error');
+        expect(response.body).toHaveProperty('message', 'Invalid refresh token.');
+    });
     
 });
