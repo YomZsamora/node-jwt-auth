@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 const { test } = require('../config/config.js');
+require('dotenv').config(); 
 
 module.exports = async () => {
     const sequelize = new Sequelize('', test.username, test.password, {
