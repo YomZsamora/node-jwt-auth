@@ -3,7 +3,7 @@ const { JWT_SECRET_KEY } = process.env;
 const uuid = require('uuid');
 const RefreshToken = require('../models/authentication/refresh-token');
 const { getUserPermissions } = require('./user-helpers')
-const { ValidationError } = require('./exceptions/custom-exceptions')
+const { ValidationError, NotAuthenticated } = require('./exceptions/custom-exceptions')
 
 /**
 * Generates an access token for a given user with specified permissions.
@@ -62,7 +62,7 @@ const extractTokenPayload = (token) => {
         token_payload = jwt.verify(token, JWT_SECRET_KEY, { algorithms: ['HS256'] });
         return token_payload;
     } catch (error) {
-        throw new ValidationError('Invalid or expired refresh token.');
+        throw new NotAuthenticated('Invalid or expired refresh token.');
     }
 }
 

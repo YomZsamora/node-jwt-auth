@@ -38,7 +38,7 @@ This project supports Docker containerization for easy deployment. To run the ap
 1. Make sure you have Docker installed on your machine.
 2. Create a `.env` file in the root directory and add the necessary environment variables.
     ```sh
-    - `MYSQL_ENGINE`: MySQL engine type (mysql.connector.django).
+    - `MYSQL_ENGINE`: MySQL engine type.
     - `MYSQL_DATABASE`: Main database name for the application.
     - `MYSQL_DATABASE_TEST`: Database name used for testing purposes.
     - `MYSQL_USER`: MySQL username for accessing the databases.

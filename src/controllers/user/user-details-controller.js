@@ -10,7 +10,7 @@ const User = require('../../models/authentication/user');
 const { ApiResponse } = require('../../utils/responses');
 const { NotFound } = require('../../utils/exceptions/custom-exceptions');
 
-const fetchUserController = async (req, res, next) => {
+const userDetailsController = async (req, res, next) => {
 
     try {
         const { userId } = req.params;
@@ -23,7 +23,9 @@ const fetchUserController = async (req, res, next) => {
             userId: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
-            lastLogin: user.lastLogin
+            lastLogin: user.lastLogin,
+            updatedAt: user.updatedAt,
+            createdAt: user.createdAt
         }
         return res.status(apiResponse.code).json(apiResponse);
     } catch (error) {
@@ -31,4 +33,4 @@ const fetchUserController = async (req, res, next) => {
     }
 }
 
-module.exports = { fetchUserController };
+module.exports = { userDetailsController };
