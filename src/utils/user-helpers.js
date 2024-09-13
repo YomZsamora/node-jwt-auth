@@ -10,8 +10,6 @@ const GroupPermission = require('../models/authentication/group-permission');
 */
 async function getUserGroups(userId) {
     const userGroups = await UserGroup.findAll({ where: { userId } });
-    console.log("------------User-Group-Invoked-------");
-    console.log(userGroups);
     return userGroups.map(userGroup => userGroup.groupId);
 }
 
