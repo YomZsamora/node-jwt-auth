@@ -4,7 +4,6 @@ const GroupPermission = require('../models/authentication/group-permission');
 
 /**
 * Retrieves user groups based on the provided user ID.
-*
 * @param {number} userId - The ID of the user to retrieve groups for.
 * @returns {Promise<number[]>} An array of group IDs associated with the user.
 */
@@ -15,7 +14,6 @@ async function getUserGroups(userId) {
 
 /**
 * Retrieves permissions for a user based on the provided user ID.
-*
 * @param {number} userId - The ID of the user to retrieve permissions for.
 * @returns {Promise<string[]>} An array of permission code names associated with the user.
 */
