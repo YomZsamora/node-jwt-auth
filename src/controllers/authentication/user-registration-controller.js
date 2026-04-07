@@ -9,7 +9,7 @@
 const User = require('../../models/authentication/user');
 const { ApiResponse } = require('../../utils/responses');
 
-const userRegistrationController = async (req, res, next) => {
+const userRegistrationController = async (req, res) => {
 
     const { email, firstName, lastName, password } = req.body;
     const user = await User.create({ email, firstName, lastName, password });
